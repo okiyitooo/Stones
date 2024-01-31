@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.SecondPersonalProject.Stones.exceptions.PersonLoginAuthenticationException;
+import com.SecondPersonalProject.Stones.exceptions.InvalidPersonPasswordException;
+import com.SecondPersonalProject.Stones.exceptions.PersonNotFoundException;
 import com.SecondPersonalProject.Stones.exceptions.PersonRegistrationException;
 import com.SecondPersonalProject.Stones.models.LoginRequest;
 import com.SecondPersonalProject.Stones.models.LoginResponse;
@@ -29,9 +30,11 @@ public class LoginController {
         try {
             LoginResponse loginResponse = loginService.login(loginRequest.getEmail(), loginRequest.getPassword());
             return ResponseEntity.ok(loginResponse);
-        } catch (PersonLoginAuthenticationException e) {
+        } catch (InvalidPersonPasswordException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }
+        } catch (PersonNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
     }
 
     @PostMapping

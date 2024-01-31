@@ -8,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.SecondPersonalProject.Stones.exceptions.PersonLoginAuthenticationException;
+import com.SecondPersonalProject.Stones.exceptions.InvalidPersonPasswordException;
 import com.SecondPersonalProject.Stones.exceptions.PersonNotFoundException;
 import com.SecondPersonalProject.Stones.exceptions.PersonRegistrationException;
 import com.SecondPersonalProject.Stones.models.LoginResponse;
@@ -32,11 +32,10 @@ public class LoginServiceImpl implements LoginService {
 	PasswordEncoder passwordEncoder;
 	
 	@Override
-	public LoginResponse login(String email, String password) {
-	    Person person = personRepository.findByEmail(email)
-	            .orElseThrow(() -> new PersonLoginAuthenticationException("Invalid Email"));
+	public LoginResponse login(String email, String password) throws PersonNotFoundException {
+	    Person person = personService.whoIsThis(email);
 	    if (!passwordEncoder.matches(password, person.getPassword())) {
-	        throw new PersonLoginAuthenticationException("Invalid Password");
+	        throw new InvalidPersonPasswordException("Invalid Password");
 	    }
         
         String generatedToken = person.generateToken();
