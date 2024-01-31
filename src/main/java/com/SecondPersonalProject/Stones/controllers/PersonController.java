@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.SecondPersonalProject.Stones.exceptions.EmptyPageException;
+import com.SecondPersonalProject.Stones.exceptions.NoStonesException;
 import com.SecondPersonalProject.Stones.exceptions.PersonNotFoundException;
 import com.SecondPersonalProject.Stones.exceptions.ResourceNotFoundException;
 import com.SecondPersonalProject.Stones.exceptions.StoneAlreadyOwnedException;
@@ -143,7 +144,5 @@ public class PersonController {
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
-
-    
+    }    
 }

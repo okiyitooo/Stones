@@ -28,7 +28,8 @@ public class StoneSerializer extends JsonSerializer<Stone> {
 	        gen.writeStringField("description", stone.getDescription());
 
 	        gen.writeObjectFieldStart("person");
-	        	gen.writeNumberField("personId", stone.getPerson().getPersonId());
+	        	if (stone.getPerson()!=null)
+	        		gen.writeNumberField("personId", stone.getPerson().getPersonId());
 	        gen.writeEndObject();
 
         gen.writeEndObject(); 

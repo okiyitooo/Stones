@@ -5,6 +5,7 @@ import java.awt.Color;
 import com.SecondPersonalProject.Stones.serializers.StoneSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,6 +32,7 @@ public class Stone {
 
     private double weight;
 
+    @Column(nullable = false)
     private Color color;
 
     private String description;

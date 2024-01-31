@@ -1,4 +1,4 @@
-package com.SecondPersonalProject.Stones.controllers;
+package com.SecondPersonalProject.Stones.exceptions;
 
 public class NoStonesException extends Exception {
 

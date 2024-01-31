@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.SecondPersonalProject.Stones.controllers.NoStonesException;
 import com.SecondPersonalProject.Stones.exceptions.EmptyPageException;
 import com.SecondPersonalProject.Stones.exceptions.PersonNotFoundException;
 import com.SecondPersonalProject.Stones.exceptions.StoneAlreadyOwnedException;
@@ -23,6 +22,6 @@ public interface PersonService {
 //	Page<Person> getAll(PersonFilter filter, Pageable pageable); // -> later
 	Page<Person> getAll(Pageable pageable) throws EmptyPageException;
 	Person takeStone(long personId, long stoneId) throws StoneNotFoundException, StoneAlreadyOwnedException, PersonNotFoundException;
-	List<Stone> getAllStones(long personId) throws PersonNotFoundException, NoStonesException;
+	List<Stone> getAllStones(long personId) throws PersonNotFoundException, com.SecondPersonalProject.Stones.exceptions.NoStonesException;
 	Person removeStone(long stoneId, long personId) throws StoneNotFoundException, PersonNotFoundException, IllegalStateException;
 }

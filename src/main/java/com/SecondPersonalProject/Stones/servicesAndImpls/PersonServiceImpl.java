@@ -6,8 +6,8 @@ import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.SecondPersonalProject.Stones.controllers.NoStonesException;
 import com.SecondPersonalProject.Stones.exceptions.EmptyPageException;
+import com.SecondPersonalProject.Stones.exceptions.NoStonesException;
 import com.SecondPersonalProject.Stones.exceptions.PersonNotFoundException;
 import com.SecondPersonalProject.Stones.exceptions.StoneAlreadyOwnedException;
 import com.SecondPersonalProject.Stones.exceptions.StoneNotFoundException;
@@ -18,12 +18,16 @@ import com.SecondPersonalProject.Stones.repositories.StoneRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import jakarta.transaction.Transactional;
 
 @Service
 public class PersonServiceImpl implements PersonService {
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	private StoneRepository stoneRepository;
 	@Autowired
@@ -45,8 +49,8 @@ public class PersonServiceImpl implements PersonService {
         person.setEmail(email);
         person.setFirstName(firstName);
         person.setLastName(lastName);
-//        person.setPassword(passwordEncoder.encode(password)); // Encode password securely
-        person.setPassword(password);
+//        person.setPassword(password);
+        person.setPassword(passwordEncoder.encode(password)); // Encode password securely
 
         return personRepository.save(person);
     }
@@ -101,7 +105,6 @@ public class PersonServiceImpl implements PersonService {
 	
 	
 
-	// In PersonServiceImpl:
 	@Override
 	public Page<Person> getAll(Pageable pageable) throws EmptyPageException {
 	    // Delegate pagination to the repository
