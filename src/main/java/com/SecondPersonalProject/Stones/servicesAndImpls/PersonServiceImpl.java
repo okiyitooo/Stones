@@ -36,7 +36,7 @@ public class PersonServiceImpl implements PersonService {
 	private StoneService stoneService;
 	
 	@Override
-    public Person birthPerson(String email, String firstName, String lastName, String password) {
+    public Person birthPerson(String email, String firstName, String lastName, String password) throws IllegalArgumentException{
         if (email == null || firstName == null || lastName == null || password == null) {
             throw new IllegalArgumentException("All fields are required to create a user.");
         }
@@ -83,10 +83,9 @@ public class PersonServiceImpl implements PersonService {
 
 	@Transactional
 	@Override
-	public Person kill(long id) throws PersonNotFoundException {
-		Person person = whoIsThis(id);
+	public void kill(long id) throws PersonNotFoundException {
+		whoIsThis(id);
 		personRepository.deleteById(id);
-		return person;
 	}
 
 	@Override
@@ -97,10 +96,9 @@ public class PersonServiceImpl implements PersonService {
 
 	@Transactional
 	@Override
-	public Person kill(String email) throws PersonNotFoundException {
-		Person person = whoIsThis(email);
+	public void kill(String email) throws PersonNotFoundException {
+		whoIsThis(email);
 		personRepository.deleteByEmail(email);
-		return person;
 	}
 	
 	

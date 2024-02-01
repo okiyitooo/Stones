@@ -68,12 +68,12 @@ public class PersonController {
     }
 
     @DeleteMapping("/kill/{personId}")
-    public ResponseEntity<Person> kill(@PathVariable(value = "personId") long personId) {
+    public ResponseEntity<?> kill(@PathVariable(value = "personId") long personId) {
         try {
-            Person person = personService.kill(personId);
-            return ResponseEntity.ok(person);
+            personService.kill(personId);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("This account has been deleted.");
         } catch (PersonNotFoundException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
     
@@ -88,12 +88,12 @@ public class PersonController {
     }
 
     @DeleteMapping("/kill/email/{email}")
-    public ResponseEntity<Void> kill(@PathVariable("email") String email) {
+    public ResponseEntity<?> kill(@PathVariable("email") String email) {
         try {
             personService.kill(email);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("This account has been deleted.");
         } catch (PersonNotFoundException e) {
-            return ResponseEntity.notFound().build();
+        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
     

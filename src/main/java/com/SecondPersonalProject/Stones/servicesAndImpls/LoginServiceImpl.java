@@ -13,6 +13,7 @@ import com.SecondPersonalProject.Stones.exceptions.PersonNotFoundException;
 import com.SecondPersonalProject.Stones.exceptions.PersonRegistrationException;
 import com.SecondPersonalProject.Stones.models.LoginResponse;
 import com.SecondPersonalProject.Stones.models.Person;
+import com.SecondPersonalProject.Stones.models.RegisterRequest;
 import com.SecondPersonalProject.Stones.models.Role;
 import com.SecondPersonalProject.Stones.repositories.PersonRepository;
 import com.SecondPersonalProject.Stones.repositories.RoleRepository;
@@ -52,13 +53,13 @@ public class LoginServiceImpl implements LoginService {
 	}
 	@Transactional
 	@Override
-	public LoginResponse register(Person person) throws PersonRegistrationException {
+	public LoginResponse register(RegisterRequest registerRequest) throws PersonRegistrationException, IllegalArgumentException {
 		try {
-			personService.whoIsThis(person.getEmail());
-			throw new PersonRegistrationException("The email " +person.getEmail()+" already belongs to an account");
+			personService.whoIsThis(registerRequest.getEmail());
+			throw new PersonRegistrationException("The email " + registerRequest.getEmail()+" already belongs to an account");
 		} catch (PersonNotFoundException e) {
 		}
-		personService.birthPerson(person.getEmail(), person.getFirstName(), person.getLastName(), person.getPassword());
+		Person person = personService.birthPerson(registerRequest.getEmail(), registerRequest.getFirstName(), registerRequest.getLastName(), registerRequest.getPassword());
 		List<Role> roles = new ArrayList<>();
         
         Role role = roleRepository.findByName("USER").orElse(roleRepository.save(new Role("USER")));

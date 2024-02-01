@@ -13,12 +13,12 @@ import com.SecondPersonalProject.Stones.models.Person;
 import com.SecondPersonalProject.Stones.models.Stone;
 
 public interface PersonService {
-	Person birthPerson( String email, String first_name, String last_name, String password);
+	Person birthPerson( String email, String first_name, String last_name, String password) throws IllegalArgumentException;
 	Person updatePerson(long personId, Person person) throws PersonNotFoundException;
 	Person whoIsThis(long id) throws PersonNotFoundException;
-	Person kill(long id) throws PersonNotFoundException;
+	void kill(long id) throws PersonNotFoundException;
 	Person whoIsThis(String email) throws PersonNotFoundException;
-	Person kill(String email) throws PersonNotFoundException;
+	void kill(String email) throws PersonNotFoundException;
 //	Page<Person> getAll(PersonFilter filter, Pageable pageable); // -> later
 	Page<Person> getAll(Pageable pageable) throws EmptyPageException;
 	Person takeStone(long personId, long stoneId) throws StoneNotFoundException, StoneAlreadyOwnedException, PersonNotFoundException;
